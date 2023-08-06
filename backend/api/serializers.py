@@ -2,8 +2,7 @@ from django.contrib.auth import get_user_model
 from drf_extra_fields.fields import Base64ImageField
 from string import hexdigits
 from rest_framework.serializers import ValidationError
-from rest_framework.serializers import (ModelSerializer, SerializerMethodField,
-                                        ValidationError)
+from rest_framework.serializers import (ModelSerializer, SerializerMethodField)
 
 from recipes.models import Ingredient, Recipe, Tag
 from recipes.models import IngredientContained
