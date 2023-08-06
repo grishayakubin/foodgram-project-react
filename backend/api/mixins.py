@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_204_NO_CONTENT,
                                    HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED)
 
+
 class AddDelViewMixin:
 
     add_serializer = None
@@ -31,7 +32,7 @@ class AddDelViewMixin:
         serializer = self.add_serializer(
             obj, context={'request': self.request}
         )
-        
+
         if self.request.method in ('GET', 'POST'):
             if manager.filter(id=obj_id).exists():
                 return Response(serializer.data)
@@ -42,5 +43,5 @@ class AddDelViewMixin:
             if manager.filter(id=obj_id).exists():
                 manager.remove(obj)
                 return Response(status=HTTP_204_NO_CONTENT)
-        
+
         return Response(status=HTTP_400_BAD_REQUEST)

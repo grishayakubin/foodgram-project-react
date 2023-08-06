@@ -118,12 +118,13 @@ def enter_ingredient_quantity_in_recipe(recipe, ingredients):
 def check_value_validate(value, klass=None):
     if not str(value).isdecimal():
         raise ValidationError(f'{value} должно содержать цифру')
-    
+
     if klass:
         obj = klass.objects.filter(id=value).first()
         if not obj:
             raise ValidationError(f'{value} не существует')
         return obj
+
 
 class TagSerializer(ModelSerializer):
     class Meta:
@@ -173,14 +174,14 @@ class RecipeSerializer(ModelSerializer):
             'ingredients__name',
             'ingredients__measurement_unit',
             'amount'
-            )
+        )
         return [
             {
                 key.replace('ingredients__', ''):
                 val for key, val in ingredient.items()
-                }
+            }
             for ingredient in ingredients
-            ]
+        ]
 
     def get_is_favorited(self, obj):
         user = self.context.get('request').user

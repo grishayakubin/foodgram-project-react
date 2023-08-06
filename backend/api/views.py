@@ -2,7 +2,7 @@ from datetime import datetime as dt
 from urllib.parse import unquote
 
 from django.contrib.auth import get_user_model
-from django.db.models import F, Sum, Q
+from django.db.models import F, Sum
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet as DjoserUserViewSet
 from rest_framework.decorators import action
@@ -22,6 +22,7 @@ from .serializers import (
 
 User = get_user_model()
 
+
 class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
     pagination_class = PageNumberPagination
     add_serializer = UserSubscribeSerializer
@@ -35,7 +36,7 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
         user = self.request.user
         if user.is_anonymous:
             return Response(status=HTTP_401_UNAUTHORIZED)
-        
+
         authors = user.follow.all()
         pages = self.paginate_queryset(authors)
         serializer = UserSubscribeSerializer(
@@ -91,7 +92,9 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
 
         user = self.request.user
         if user.is_authenticated:
-            is_in_shopping = self.request.query_params.get('is_in_shopping_cart')
+            is_in_shopping = self.request.query_params.get(
+                'is_in_shopping_cart'
+            )
             if is_in_shopping in ('1', 'true'):
                 queryset = queryset.filter(is_in_shopping_list=user.id)
             elif is_in_shopping in ('0', 'false'):
